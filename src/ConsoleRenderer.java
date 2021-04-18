@@ -17,6 +17,7 @@ public class ConsoleRenderer {
     List<Edge> edges;
 
     double vAngle = Math.toRadians(90);
+    double hAngle = Math.toRadians(0);
 
     public ConsoleRenderer(String objPath) throws IOException {
         InputStream objInputStream = new FileInputStream(objPath);
@@ -25,6 +26,10 @@ public class ConsoleRenderer {
 
     public double getvAngle() {
         return vAngle;
+    }
+
+    public double gethAngle() {
+        return hAngle;
     }
 
     public Vertex getVertexAtPos(FloatTuple floatTuple){
@@ -44,17 +49,13 @@ public class ConsoleRenderer {
     public void animate() throws IOException, InterruptedException {
         while (true) {
             show();
-            Thread.sleep(1000);
-            vAngle += Math.toRadians(5);
-            final String os = System.getProperty("os.name");
-            if (os.contains("Windows"))
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            else
-                Runtime.getRuntime().exec("clear");
+            Thread.sleep(10);
+            vAngle += Math.toRadians(0);
+            hAngle += Math.toRadians(5);
         }
     }
 
-    public void show() throws IOException {
+    public void show() throws IOException, InterruptedException {
         size = 200;
         Raster raster = new Raster(size);
         vertices = new ArrayList<>();

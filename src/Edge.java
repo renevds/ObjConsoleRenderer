@@ -28,20 +28,24 @@ public class Edge {
 
     public void addToRaster(Raster raster){
 
-        float xMin = Math.round(Math.min(vertex1.getX(), vertex2.getX()));
-        float xMax = Math.round(Math.max(vertex1.getX(), vertex2.getX()));
+        float xMin = Math.round(Math.min(vertex1.getXWithAngle(), vertex2.getXWithAngle()));
+        float xMax = Math.round(Math.max(vertex1.getXWithAngle(), vertex2.getXWithAngle()));
         int xSteps = Math.round(xMax - xMin);
 
         float yMin = Math.round(Math.min(vertex1.getZWithAngle(), vertex2.getZWithAngle()));
         float yMax = Math.round(Math.max(vertex1.getZWithAngle(), vertex2.getZWithAngle()));
         int ySteps = Math.round(yMax - yMin);
 
+        float depthMin = Math.round(Math.min(vertex1.getYWithAngle(), vertex2.getYWithAngle()));
+        float depthMax = Math.round(Math.max(vertex1.getYWithAngle(), vertex2.getYWithAngle()));
+
         int steps = Math.max(xSteps, ySteps);
 
         for (int step = 0; step < steps; step++) {
                 int x = Math.round(xMin + step*((xMax - xMin)/steps));
                 int y = Math.round(yMin + step*((yMax - yMin)/steps));
-                raster.setPos(x, y, toString());
+                float depth = yMin + step*((depthMax - depthMin)/steps);
+                raster.setPos(x, y, depth,  toString());
 
         }
     }

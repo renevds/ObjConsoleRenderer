@@ -35,14 +35,26 @@ public class Vertex {
         return (float) (z*cos - y*sin);
     }
 
-    public float getYWithAngle(){
+    public float getXWithAngle(){
+        double cos = Math.cos(consoleRenderer.gethAngle());
+        double sin = Math.sin(consoleRenderer.gethAngle());
+        return (float) (x*cos - getYWithVAngle()*sin);
+    }
+
+    public float getYWithVAngle(){
         double cos = Math.cos(consoleRenderer.getvAngle());
         double sin = Math.sin(consoleRenderer.getvAngle());
-        return (float) (z*sin + y*cos);
+        return (float) (y*cos + z*sin);
+    }
+
+    public float getYWithAngle(){
+        double cos = Math.cos(consoleRenderer.gethAngle());
+        double sin = Math.sin(consoleRenderer.gethAngle());
+        return (float) (x*sin + getYWithVAngle()*cos);
     }
 
     public void addToRaster(Raster raster){
-        raster.setPos(Math.round(x), Math.round(getZWithAngle()), "@@");
+        raster.setPos(Math.round(getXWithAngle()), Math.round(getZWithAngle()), getYWithAngle(),"@@");
     }
 
     @Override
