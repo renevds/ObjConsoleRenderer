@@ -12,16 +12,18 @@ import java.util.concurrent.TimeUnit;
 public class ConsoleRenderer {
     Obj obj;
     int size;
-    int scale;
+    float scale;
     List<Vertex> vertices;
     List<Edge> edges;
 
     double vAngle = Math.toRadians(90);
     double hAngle = Math.toRadians(0);
 
-    public ConsoleRenderer(String objPath) throws IOException {
+    public ConsoleRenderer(String objPath, int size ) throws IOException {
         InputStream objInputStream = new FileInputStream(objPath);
         obj = ObjReader.read(objInputStream);
+        this.size = size;
+        setScale();
     }
 
     public double getvAngle() {
@@ -55,12 +57,8 @@ public class ConsoleRenderer {
         }
     }
 
-    public void show() throws IOException, InterruptedException {
-        size = 200;
-        Raster raster = new Raster(size);
-        vertices = new ArrayList<>();
-        edges = new ArrayList<>();
-        float maxLargest = 1;
+    public void setScale(){
+        float maxLargest = 0;
 
         for (int i = 0; i < obj.getNumVertices(); i++) {
             FloatTuple floatTuple = obj.getVertex(i);
@@ -70,7 +68,14 @@ public class ConsoleRenderer {
             }
         }
 
-        scale = (int)((size/maxLargest)/2);
+        scale = ((size/maxLargest)/2);
+    }
+
+    public void show() throws IOException, InterruptedException {
+        Raster raster = new Raster(size);
+        vertices = new ArrayList<>();
+        edges = new ArrayList<>();
+
 
         for (int i = 0; i < obj.getNumVertices(); i++) {
             FloatTuple floatTuple = obj.getVertex(i);
@@ -99,5 +104,6 @@ public class ConsoleRenderer {
         }
 
         raster.print();
+        System.out.println(scale);
     }
 }

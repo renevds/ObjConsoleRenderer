@@ -37,14 +37,14 @@ public class Raster {
 
     public void print() throws IOException, InterruptedException {
         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        String print = "";
+        StringBuilder print = new StringBuilder();
         for(Pixel[] line: raster){
             for (Pixel c: line){
-                print += c.toString();
+                print.append(c.toString());
             }
-            print += "\n";
+            print.append("\n");
         }
-        printWriter.print(colorize(print, Attribute.GREEN_TEXT()));
+        printWriter.print(colorize(print.toString(), Attribute.GREEN_TEXT()));
         printWriter.flush();
     }
 }
