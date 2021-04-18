@@ -49,7 +49,8 @@ public class ConsoleRenderer {
     }
 
     public void animate() throws IOException, InterruptedException {
-        while (true) {
+        for (int i = 0; i < 60 ||true; i++)
+        {
             show();
             Thread.sleep(10);
             vAngle += Math.toRadians(0);
@@ -68,7 +69,7 @@ public class ConsoleRenderer {
             }
         }
 
-        scale = ((size/maxLargest)/2);
+        scale = ((size/maxLargest)/3);
     }
 
     public void show() throws IOException, InterruptedException {

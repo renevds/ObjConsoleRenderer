@@ -3,7 +3,7 @@ public class Pixel {
     Float level;
 
     public void setC(String c, Float level) {
-        if(this.level == null || this.level < level){
+        if(this.level == null || this.level <= level){
             this.c = c;
             this.level = level;
         }

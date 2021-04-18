@@ -36,7 +36,6 @@ public class Raster {
     }
 
     public void print() throws IOException, InterruptedException {
-        new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         StringBuilder print = new StringBuilder();
         for(Pixel[] line: raster){
             for (Pixel c: line){
@@ -44,6 +43,7 @@ public class Raster {
             }
             print.append("\n");
         }
+        new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         printWriter.print(colorize(print.toString(), Attribute.GREEN_TEXT()));
         printWriter.flush();
     }
