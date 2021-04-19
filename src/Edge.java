@@ -18,7 +18,7 @@ public class Edge {
     }
 
     private float getAngle(){
-        return (float) (Math.atan((vertex1.getZWithAngle() - vertex2.getZWithAngle())/(vertex1.getXWithAngle() - vertex2.getZWithAngle())) + Math.PI/2);
+        return (float) (Math.atan2(Math.abs(vertex1.getZWithAngle() - vertex2.getZWithAngle()), Math.abs(vertex1.getXWithAngle() - vertex2.getXWithAngle())) + Math.PI/2);
     }
 
     public String toString() {
@@ -27,24 +27,29 @@ public class Edge {
     }
 
     public void addToRaster(Raster raster){
+        double x1 = vertex1.getXWithAngle();
+        double x2 = vertex2.getXWithAngle();
 
-        float xMin = Math.round(Math.min(vertex1.getXWithAngle(), vertex2.getXWithAngle()));
-        float xMax = Math.round(Math.max(vertex1.getXWithAngle(), vertex2.getXWithAngle()));
-        int xSteps = Math.round(xMax - xMin);
+        double y1 = vertex1.getZWithAngle();
+        double y2 = vertex2.getZWithAngle();
 
-        float yMin = Math.round(Math.min(vertex1.getZWithAngle(), vertex2.getZWithAngle()));
-        float yMax = Math.round(Math.max(vertex1.getZWithAngle(), vertex2.getZWithAngle()));
-        int ySteps = Math.round(yMax - yMin);
+        double depth1 = vertex1.getYWithAngle();
+        double depth2 = vertex2.getYWithAngle();
 
-        float depthMin = Math.round(Math.min(vertex1.getYWithAngle(), vertex2.getYWithAngle()));
-        float depthMax = Math.round(Math.max(vertex1.getYWithAngle(), vertex2.getYWithAngle()));
+        double xMin = Math.min(x1, x2);
+        double xMax = Math.max(x1, x2);
+        int xSteps = (int) Math.round(xMax - xMin);
+
+        double yMin = Math.min(y1, y2);
+        double yMax = Math.max(y1, y2);
+        int ySteps = (int) Math.round(yMax - yMin);
 
         int steps = Math.max(xSteps, ySteps);
 
-        for (int step = 0; step < steps; step++) {
-                int x = Math.round(xMin + step*((xMax - xMin)/steps));
-                int y = Math.round(yMin + step*((yMax - yMin)/steps));
-                float depth = yMin + step*((depthMax - depthMin)/steps);
+        for (int step = 1; step < steps; step++) {
+                int x = (int) Math.round(x1 + step*((x2 - x1)/steps));
+                int y = (int) Math.round(y1 + step*((y2 - y1)/steps));
+                Double depth = depth1 + step*((depth2 - depth1)/steps);
                 raster.setPos(x, y, depth,  toString());
 
         }

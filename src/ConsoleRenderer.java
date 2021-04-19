@@ -16,7 +16,7 @@ public class ConsoleRenderer {
     List<Edge> edges;
     Raster raster;
 
-    double vAngle = Math.toRadians(90);
+    double vAngle = Math.toRadians(0);
     double hAngle = Math.toRadians(0);
 
     public ConsoleRenderer(String objPath, int width, int height) throws IOException {
@@ -35,9 +35,9 @@ public class ConsoleRenderer {
         return hAngle;
     }
 
-    public Vertex getVertexAtPos(FloatTuple floatTuple){
-        for (Vertex vertex: vertices){
-            if (floatTuple.getX()*scale == vertex.getX() && floatTuple.getY()*scale == vertex.getY() && floatTuple.getZ()*scale == vertex.getZ()){
+    public Vertex getVertexAtPos(FloatTuple floatTuple) {
+        for (Vertex vertex : vertices) {
+            if (floatTuple.getX() * scale == vertex.getX() && floatTuple.getY() * scale == vertex.getY() && floatTuple.getZ() * scale == vertex.getZ()) {
                 return vertex;
             }
         }
@@ -45,32 +45,32 @@ public class ConsoleRenderer {
     }
 
 
-    private Vertex floatTupleToVertex(FloatTuple floatTuple){
+    private Vertex floatTupleToVertex(FloatTuple floatTuple) {
         return new Vertex(floatTuple.getX(), floatTuple.getY(), floatTuple.getZ(), this);
     }
 
     public void animate() throws IOException, InterruptedException {
         show();
-        for (int i = 0; i < 60 ||true; i++)
-        {
+        for (int i = 0; i < 60 || true; i++) {
             frame();
             vAngle += Math.toRadians(5);
             hAngle += Math.toRadians(5);
+            //Thread.sleep(400);
         }
     }
 
-    public void setScale(){
-        float maxLargest = 0;
+    public void setScale() {
+        double maxLargest = 0;
 
         for (int i = 0; i < obj.getNumVertices(); i++) {
             FloatTuple floatTuple = obj.getVertex(i);
-            float largest = Math.max(Math.max(Math.abs(floatTuple.getX()), Math.abs(floatTuple.getY())), Math.abs(floatTuple.getZ()));
-            if(largest > maxLargest){
+            double largest = Math.sqrt(Math.pow(floatTuple.getX(), 2) + Math.pow(floatTuple.getY(), 2) + Math.pow(floatTuple.getZ(), 2));
+            if (largest > maxLargest) {
                 maxLargest = largest;
             }
         }
 
-        scale = ((Math.min(width, height) /maxLargest)/2);
+        scale = (float) ((Math.min(width, height) / maxLargest)/2);
     }
 
     public void show() throws IOException {
@@ -92,7 +92,7 @@ public class ConsoleRenderer {
                 Vertex vertex1 = getVertexAtPos(obj.getVertex(objFace.getVertexIndex(j)));
                 for (int k = 0; k < objFace.getNumVertices(); k++) {
                     Vertex vertex2 = getVertexAtPos(obj.getVertex(objFace.getVertexIndex(k)));
-                    if (vertex1 != vertex2){
+                    if (vertex1 != vertex2) {
                         Edge edge = new Edge(vertex1, vertex2);
                         edges.add(edge);
                     }
@@ -103,13 +103,15 @@ public class ConsoleRenderer {
 
     public void frame() throws IOException, InterruptedException {
         raster.reset();
-        for (Edge edge: edges){
+        for (Edge edge : edges) {
             edge.addToRaster(raster);
         }
-        for(Vertex vertex: vertices){
+        for (Vertex vertex : vertices) {
             vertex.addToRaster(raster);
         }
         raster.print();
         System.out.println(scale);
+        System.out.println(vAngle);
+        System.out.println(hAngle);
     }
 }

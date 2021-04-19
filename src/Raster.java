@@ -1,10 +1,13 @@
 
+import com.diogonunes.jcolor.Attribute;
+
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
-import com.
+import static com.diogonunes.jcolor.Ansi.colorize;
+
 
 public class Raster {
     Pixel[][] raster;
@@ -24,7 +27,7 @@ public class Raster {
         printWriter = new PrintWriter(new OutputStreamWriter(System.out, "Cp850"));
     }
 
-    public void setPos(int x, int y, Float depth, String c){
+    public void setPos(int x, int y, Double depth, String c){
         //System.out.println("draw " + c + "at x: " + x + " y: " + y);
         try {
             raster[height/2 + y][width/2 + x].setC(c, depth);
@@ -55,4 +58,5 @@ public class Raster {
             }
         }
     }
+
 }

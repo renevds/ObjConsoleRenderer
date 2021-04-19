@@ -1,8 +1,8 @@
 public class Pixel {
     String c = "  ";
-    Float level;
+    Double level;
 
-    public void setC(String c, Float level) {
+    public void setC(String c, Double level) {
         if(this.level == null || this.level <= level){
             this.c = c;
             this.level = level;
