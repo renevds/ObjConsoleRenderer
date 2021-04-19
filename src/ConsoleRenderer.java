@@ -5,24 +5,25 @@ import de.javagl.obj.ObjReader;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class ConsoleRenderer {
     Obj obj;
-    int size;
+    int width;
+    int height;
     float scale;
     List<Vertex> vertices;
     List<Edge> edges;
+    Raster raster;
 
     double vAngle = Math.toRadians(90);
     double hAngle = Math.toRadians(0);
 
-    public ConsoleRenderer(String objPath, int size ) throws IOException {
+    public ConsoleRenderer(String objPath, int width, int height) throws IOException {
         InputStream objInputStream = new FileInputStream(objPath);
         obj = ObjReader.read(objInputStream);
-        this.size = size;
+        this.width = width;
+        this.height = height;
         setScale();
     }
 
@@ -49,11 +50,11 @@ public class ConsoleRenderer {
     }
 
     public void animate() throws IOException, InterruptedException {
+        show();
         for (int i = 0; i < 60 ||true; i++)
         {
-            show();
-            Thread.sleep(10);
-            vAngle += Math.toRadians(0);
+            frame();
+            vAngle += Math.toRadians(5);
             hAngle += Math.toRadians(5);
         }
     }
@@ -69,11 +70,11 @@ public class ConsoleRenderer {
             }
         }
 
-        scale = ((size/maxLargest)/3);
+        scale = ((Math.min(width, height) /maxLargest)/2);
     }
 
-    public void show() throws IOException, InterruptedException {
-        Raster raster = new Raster(size);
+    public void show() throws IOException {
+        raster = new Raster(width, height);
         vertices = new ArrayList<>();
         edges = new ArrayList<>();
 
@@ -94,16 +95,20 @@ public class ConsoleRenderer {
                     if (vertex1 != vertex2){
                         Edge edge = new Edge(vertex1, vertex2);
                         edges.add(edge);
-                        edge.addToRaster(raster);
                     }
                 }
             }
         }
+    }
 
+    public void frame() throws IOException, InterruptedException {
+        raster.reset();
+        for (Edge edge: edges){
+            edge.addToRaster(raster);
+        }
         for(Vertex vertex: vertices){
             vertex.addToRaster(raster);
         }
-
         raster.print();
         System.out.println(scale);
     }

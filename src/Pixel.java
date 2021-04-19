@@ -9,6 +9,11 @@ public class Pixel {
         }
     }
 
+    public void reset(){
+        this.c = "  ";
+        level = null;
+    }
+
     @Override
     public String toString() {
         return c;

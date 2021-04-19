@@ -18,7 +18,7 @@ public class Edge {
     }
 
     private float getAngle(){
-        return (float) (Math.atan((vertex1.getZ() - vertex2.getZ())/(vertex1.getX() - vertex2.getX())) + Math.PI/2);
+        return (float) (Math.atan((vertex1.getZWithAngle() - vertex2.getZWithAngle())/(vertex1.getXWithAngle() - vertex2.getZWithAngle())) + Math.PI/2);
     }
 
     public String toString() {

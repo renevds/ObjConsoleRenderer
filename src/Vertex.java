@@ -54,7 +54,7 @@ public class Vertex {
     }
 
     public void addToRaster(Raster raster){
-        raster.setPos(Math.round(getXWithAngle()), Math.round(getZWithAngle()), getYWithAngle(),"@@");
+        raster.setPos(Math.round(getXWithAngle()), Math.round(getZWithAngle()), getYWithAngle(),"()");
     }
 
     @Override

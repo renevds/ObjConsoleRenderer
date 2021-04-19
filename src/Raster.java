@@ -1,21 +1,21 @@
 
-import com.diogonunes.jcolor.Attribute;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 
-import java.io.*;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-
-import static com.diogonunes.jcolor.Ansi.colorize;
+import com.
 
 public class Raster {
     Pixel[][] raster;
-    int size;
+    int width;
+    int height;
     PrintWriter printWriter;
 
-    public Raster(int size) throws UnsupportedEncodingException {
-        this.size = size;
-        raster = new Pixel[size][size];
+    public Raster(int width, int height) throws UnsupportedEncodingException {
+        this.width = width;
+        this.height = height;
+        raster = new Pixel[height][width];
         for (Pixel[] line: raster) {
             for (int i = 0; i < line.length; i++) {
                 line[i] = new Pixel();
@@ -27,7 +27,7 @@ public class Raster {
     public void setPos(int x, int y, Float depth, String c){
         //System.out.println("draw " + c + "at x: " + x + " y: " + y);
         try {
-            raster[size/2  + y][size/2 + x].setC(c, depth);
+            raster[height/2 + y][width/2 + x].setC(c, depth);
         }
         catch (ArrayIndexOutOfBoundsException e){
 
@@ -46,5 +46,13 @@ public class Raster {
         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         printWriter.print(colorize(print.toString(), Attribute.GREEN_TEXT()));
         printWriter.flush();
+    }
+
+    public void reset(){
+        for (Pixel[] col: raster){
+            for (Pixel pixel: col){
+                pixel.reset();
+            }
+        }
     }
 }
