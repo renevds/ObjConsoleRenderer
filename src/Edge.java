@@ -53,5 +53,8 @@ public class Edge {
                 raster.setPos(x, y, depth,  toString());
 
         }
+
+
+
     }
 }
