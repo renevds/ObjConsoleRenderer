@@ -48,7 +48,6 @@ public class ConsoleRenderer {
         return null;
     }
 
-
     private Vertex floatTupleToVertex(FloatTuple floatTuple) {
         return new Vertex(floatTuple.getX(), floatTuple.getY(), floatTuple.getZ(), this);
     }
@@ -112,8 +111,8 @@ public class ConsoleRenderer {
                         Vertex vertex1 = getVertexAtPos(obj.getVertex(objFace.getVertexIndex(j)));
                         Vertex vertex2 = getVertexAtPos(obj.getVertex(objFace.getVertexIndex(k)));
                         Vertex vertex3 = getVertexAtPos(obj.getVertex(objFace.getVertexIndex(l)));
-                        if(vertex1 != vertex2 && vertex2 != vertex3 && vertex1 != vertex3) {
-                            if(findFace(vertex1, vertex2, vertex3) == null) {
+                        if (vertex1 != vertex2 && vertex2 != vertex3 && vertex1 != vertex3) {
+                            if (findFace(vertex1, vertex2, vertex3) == null) {
                                 faces.add(new Face(vertex1, vertex2, vertex3));
                             }
                         }
@@ -122,6 +121,7 @@ public class ConsoleRenderer {
             }
         }
     }
+    
 
     private Face findFace(Vertex vertex1, Vertex vertex2, Vertex vertex3){
         for (Face face: faces){

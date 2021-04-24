@@ -5,6 +5,8 @@ public class Face {
     Vertex vertex2;
     Vertex vertex3;
 
+    static int STEP_MUP = 3;
+
     public Face(Vertex vertex1, Vertex vertex2, Vertex vertex3){
         this.vertex1 = vertex1;
         this.vertex2 = vertex2;
@@ -32,6 +34,12 @@ public class Face {
         double yAMax = Math.max(y1, y2);
         int yASteps = (int) Math.round(yAMax - yAMin);
 
+        double depthAMin = Math.min(depth1, depth2);
+        double depthAMax = Math.max(depth1, depth2);
+        int depthASteps = (int) Math.round(depthAMax - depthAMin);
+
+        int ASteps = Math.max(Math.max(xASteps, yASteps), depthASteps);
+
         double xBMin = Math.min(x1, x3);
         double xBMax = Math.max(x1, x3);
         int xBSteps = (int) Math.round(xBMax - xBMin);
@@ -40,7 +48,14 @@ public class Face {
         double yBMax = Math.max(y1, y3);
         int yBSteps = (int) Math.round(yBMax - yBMin);
 
-        int steps = Math.max(Math.max(xASteps, yASteps), Math.max(xBSteps, yBSteps))*2;
+        double depthBMin = Math.min(depth1, depth2);
+        double depthBMax = Math.max(depth1, depth2);
+        int depthBSteps = (int) Math.round(depthBMax - depthBMin);
+
+        int BSteps = Math.max(Math.max(xBSteps, yBSteps), depthBSteps);
+
+
+        int steps = Math.max(ASteps, BSteps)*STEP_MUP;
 
 
         double NAx = x2 - x1;
@@ -78,8 +93,7 @@ public class Face {
         double yMax = Math.max(Ay, By);
         int ySteps = (int) Math.round(yMax - yMin);
 
-        int steps = Math.max(xSteps, ySteps)*2;
-
+        int steps = (Math.max(xSteps, ySteps)*STEP_MUP);
 
         for (int step = 0; step <= steps; step++) {
             int x = (int) Math.round(Ax + step*((Bx - Ax)/steps));
